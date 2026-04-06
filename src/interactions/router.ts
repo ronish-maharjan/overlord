@@ -2,8 +2,10 @@ import type { ButtonInteraction, Interaction } from 'discord.js';
 import { slashCommandMap } from '../commands/slash';
 import { handleRepLeaderboardButton } from './buttons/repLeaderboard.button';
 import { handleLevelLeaderboardButton } from './buttons/levelLeaderboard.button';
+import { handleModerationPurgeButton } from './buttons/moderationPurge.button';
 import { parseRepLeaderboardCustomId } from '../utils/pagination/leaderboardPagination';
 import { parseLevelLeaderboardCustomId } from '../utils/pagination/levelLeaderboardPagination';
+import { parseModerationPurgeCustomId } from '../utils/pagination/moderationPurgeConfirmation';
 import { createErrorEmbed } from '../utils/embeds/errorEmbeds';
 import { logger } from '../utils/logger/logger';
 
@@ -68,6 +70,11 @@ async function routeButtonInteraction(
 
   if (parseLevelLeaderboardCustomId(interaction.customId)) {
     await handleLevelLeaderboardButton(interaction);
+    return;
+  }
+
+  if (parseModerationPurgeCustomId(interaction.customId)) {
+    await handleModerationPurgeButton(interaction);
     return;
   }
 }

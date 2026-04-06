@@ -6,6 +6,12 @@ import { LevelRoleRewardsRepository } from './repositories/levels/levelRoleRewar
 import { LevelSettingsRepository } from './repositories/levels/levelSettings.repository';
 import { LevelsService } from './services/levels/levels.service';
 
+import { ModerationRepository } from './repositories/moderation/moderation.repository';
+import { ModerationSettingsRepository } from './repositories/moderation/moderationSettings.repository';
+import { ModerationService } from './services/moderation/moderation.service';
+import { ModerationSettingsService } from './services/moderation/moderationSettings.service';
+import { ModerationPurgeService } from './services/moderation/moderationPurge.service';
+
 const repRepository = new RepRepository();
 const repService = new RepService(repRepository);
 
@@ -19,6 +25,20 @@ const levelsService = new LevelsService(
   levelSettingsRepository,
 );
 
+const moderationRepository = new ModerationRepository();
+const moderationSettingsRepository = new ModerationSettingsRepository();
+
+const moderationService = new ModerationService(
+  moderationRepository,
+  moderationSettingsRepository,
+);
+
+const moderationSettingsService = new ModerationSettingsService(
+  moderationSettingsRepository,
+);
+
+const moderationPurgeService = new ModerationPurgeService();
+
 export const container = {
   repRepository,
   repService,
@@ -27,4 +47,10 @@ export const container = {
   levelRoleRewardsRepository,
   levelSettingsRepository,
   levelsService,
+
+  moderationRepository,
+  moderationSettingsRepository,
+  moderationService,
+  moderationSettingsService,
+  moderationPurgeService,
 };
