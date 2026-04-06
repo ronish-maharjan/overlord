@@ -1,11 +1,16 @@
 import type { ButtonInteraction, Interaction } from 'discord.js';
 import { slashCommandMap } from '../commands/slash';
+
 import { handleRepLeaderboardButton } from './buttons/repLeaderboard.button';
 import { handleLevelLeaderboardButton } from './buttons/levelLeaderboard.button';
 import { handleModerationPurgeButton } from './buttons/moderationPurge.button';
+import { handleVerifyButton } from './buttons/verify.button';
+
 import { parseRepLeaderboardCustomId } from '../utils/pagination/leaderboardPagination';
 import { parseLevelLeaderboardCustomId } from '../utils/pagination/levelLeaderboardPagination';
 import { parseModerationPurgeCustomId } from '../utils/pagination/moderationPurgeConfirmation';
+import { VERIFY_BUTTON_CUSTOM_ID } from '../utils/verification/verificationMessage';
+
 import { createErrorEmbed } from '../utils/embeds/errorEmbeds';
 import { logger } from '../utils/logger/logger';
 
@@ -75,6 +80,11 @@ async function routeButtonInteraction(
 
   if (parseModerationPurgeCustomId(interaction.customId)) {
     await handleModerationPurgeButton(interaction);
+    return;
+  }
+
+  if (interaction.customId === VERIFY_BUTTON_CUSTOM_ID) {
+    await handleVerifyButton(interaction);
     return;
   }
 }

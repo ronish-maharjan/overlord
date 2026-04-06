@@ -12,6 +12,9 @@ import { ModerationService } from './services/moderation/moderation.service';
 import { ModerationSettingsService } from './services/moderation/moderationSettings.service';
 import { ModerationPurgeService } from './services/moderation/moderationPurge.service';
 
+import { VerificationSettingsRepository } from './repositories/verification/verificationSettings.repository';
+import { VerificationService } from './services/verification/verification.service';
+
 const repRepository = new RepRepository();
 const repService = new RepService(repRepository);
 
@@ -39,7 +42,15 @@ const moderationSettingsService = new ModerationSettingsService(
 
 const moderationPurgeService = new ModerationPurgeService();
 
+const verificationSettingsRepository = new VerificationSettingsRepository();
+const verificationService = new VerificationService(
+  verificationSettingsRepository,
+);
+
 export const container = {
+  verificationSettingsRepository,
+  verificationService,
+
   repRepository,
   repService,
 

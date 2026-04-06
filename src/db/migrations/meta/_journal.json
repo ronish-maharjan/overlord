@@ -36,6 +36,13 @@
       "when": 1775467619121,
       "tag": "0004_tearful_rhino",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1775478782600,
+      "tag": "0005_high_rockslide",
+      "breakpoints": true
     }
   ]
 }

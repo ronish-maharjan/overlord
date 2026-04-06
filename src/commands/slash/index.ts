@@ -30,38 +30,51 @@ import removemodlogschannel from '../moderation/slash/removemodlogschannel';
 import cleanup from '../moderation/slash/cleanup';
 import purge from '../moderation/slash/purge';
 
+//verification
+import setverifyrole from '../verification/slash/setverifyrole';
+import removeverifyrole from '../verification/slash/removeverifyrole';
+import setverifychannel from '../verification/slash/setverifychannel';
+import removeverifychannel from '../verification/slash/removeverifychannel';
+
 export const slashCommands: SlashCommand[] = [
-  // Rep
-  giverep,
-  rep,
-  toprep,
-  setrep,
+    //verification
 
-  // Levels
-  xp,
-  setlevel,
-  leaderboard,
-  setlevelrole,
-  removelevelrole,
-  levelroles,
-  setlevellogschannel,
-  removelevellogschannel,
+    setverifyrole,
+    removeverifyrole,
+    setverifychannel,
+    removeverifychannel,
 
-  // Moderation
-  warn,
-  kick,
-  ban,
-  unban,
-  timeout,
-  untimeout,
-  history,
-  moderationCase,
-  setmodlogschannel,
-  removemodlogschannel,
-  cleanup,
-  purge,
+    // Rep
+    giverep,
+    rep,
+    toprep,
+    setrep,
+
+    // Levels
+    xp,
+    setlevel,
+    leaderboard,
+    setlevelrole,
+    removelevelrole,
+    levelroles,
+    setlevellogschannel,
+    removelevellogschannel,
+
+    // Moderation
+    warn,
+    kick,
+    ban,
+    unban,
+    timeout,
+    untimeout,
+    history,
+    moderationCase,
+    setmodlogschannel,
+    removemodlogschannel,
+    cleanup,
+    purge,
 ];
 
 export const slashCommandMap = new Map(
-  slashCommands.map((command) => [command.data.name, command]),
+    slashCommands.map((command) => [command.data.name, command]),
 );

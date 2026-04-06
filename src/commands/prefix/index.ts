@@ -30,44 +30,56 @@ import removemodlogschannel from '../moderation/prefix/removemodlogschannel';
 import cleanup from '../moderation/prefix/cleanup';
 import purge from '../moderation/prefix/purge';
 
+//verification
+import setverifyrole from '../verification/prefix/setverifyrole';
+import removeverifyrole from '../verification/prefix/removeverifyrole';
+import setverifychannel from '../verification/prefix/setverifychannel';
+import removeverifychannel from '../verification/prefix/removeverifychannel';
+
 export const prefixCommands: PrefixCommand[] = [
-  // Rep
-  giverep,
-  rep,
-  toprep,
-  setrep,
+    // verification
+    setverifychannel,
+    removeverifychannel,
+    setverifyrole,
+    removeverifyrole,
 
-  // Levels
-  xp,
-  setlevel,
-  leaderboard,
-  setlevelrole,
-  removelevelrole,
-  levelroles,
-  setlevellogschannel,
-  removelevellogschannel,
+    // Rep
+    giverep,
+    rep,
+    toprep,
+    setrep,
 
-  // Moderation
-  warn,
-  kick,
-  ban,
-  unban,
-  timeout,
-  untimeout,
-  history,
-  moderationCase,
-  setmodlogschannel,
-  removemodlogschannel,
-  cleanup,
-  purge,
+    // Levels
+    xp,
+    setlevel,
+    leaderboard,
+    setlevelrole,
+    removelevelrole,
+    levelroles,
+    setlevellogschannel,
+    removelevellogschannel,
+
+    // Moderation
+    warn,
+    kick,
+    ban,
+    unban,
+    timeout,
+    untimeout,
+    history,
+    moderationCase,
+    setmodlogschannel,
+    removemodlogschannel,
+    cleanup,
+    purge,
 ];
 
 export const prefixCommandMap = new Map<string, PrefixCommand>();
 
 for (const command of prefixCommands) {
-  prefixCommandMap.set(command.name, command);
+    prefixCommandMap.set(command.name, command);
 
-  for (const alias of command.aliases ?? []) {
-    prefixCommandMap.set(alias, command);
-  }
+    for (const alias of command.aliases ?? []) {
+        prefixCommandMap.set(alias, command);
+    }
 }
