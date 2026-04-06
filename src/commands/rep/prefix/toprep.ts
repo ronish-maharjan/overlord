@@ -4,7 +4,7 @@ import { handleTopRep } from '../shared/toprep.handler';
 
 const command: PrefixCommand = {
   name: 'toprep',
-  aliases: ['reptop'],
+  aliases: ['reptop','tr'],
 
   async execute(message) {
     const context = new CommandContext(message);

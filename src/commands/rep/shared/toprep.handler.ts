@@ -1,6 +1,5 @@
 import { Message } from 'discord.js';
 import { container } from '../../../container';
-import { REP_CONSTANTS } from '../../../config/constants';
 import { RepServiceError } from '../../../services/rep/rep.service';
 import { createErrorEmbed } from '../../../utils/embeds/errorEmbeds';
 import {
@@ -12,31 +11,10 @@ import {
   attachLeaderboardTimeout,
   createRepLeaderboardButtons,
 } from '../../../utils/pagination/leaderboardPagination';
-
-function formatLeaderboardLine(rank: number, reps: number, username: string): string {
-  const rankText = `${rank}.`.padEnd(5, ' ');
-  return `${rankText}${reps} - ${username}`;
-}
-
-async function resolveLeaderboardUsername(
-  context: CommandContext,
-  userId: string,
-): Promise<string> {
-  const guild = context.source.guild;
-  if (!guild) return 'Unknown User';
-
-  try {
-    const member = await guild.members.fetch(userId);
-    return member.user.tag;
-  } catch {
-    try {
-      const user = await context.source.client.users.fetch(userId);
-      return user.tag;
-    } catch {
-      return 'Unknown User';
-    }
-  }
-}
+import {
+  formatRepLeaderboardLine,
+  resolveRepLeaderboardUsernameFromContext,
+} from '../../../utils/rep/repLeaderboardFormatter';
 
 export async function handleTopRep(params: {
   context: CommandContext;
@@ -68,8 +46,11 @@ export async function handleTopRep(params: {
 
     const lines = await Promise.all(
       leaderboard.entries.map(async (entry) => {
-        const username = await resolveLeaderboardUsername(context, entry.userId);
-        return formatLeaderboardLine(entry.rank, entry.repsReceived, username);
+        const username = await resolveRepLeaderboardUsernameFromContext(
+          context,
+          entry.userId,
+        );
+        return formatRepLeaderboardLine(entry.rank, entry.repsReceived, username);
       }),
     );
 
@@ -77,7 +58,7 @@ export async function handleTopRep(params: {
       lines,
       page: leaderboard.page,
       totalUsers: leaderboard.totalUsers,
-      pageSize: REP_CONSTANTS.LEADERBOARD_PAGE_SIZE,
+      pageSize: leaderboard.pageSize,
       prefix: commandPrefix,
     });
 

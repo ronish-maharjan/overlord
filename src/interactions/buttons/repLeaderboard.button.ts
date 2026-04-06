@@ -1,6 +1,5 @@
 import type { ButtonInteraction } from 'discord.js';
 import { container } from '../../container';
-import { REP_CONSTANTS } from '../../config/constants';
 import { createErrorEmbed } from '../../utils/embeds/errorEmbeds';
 import {
   createEmptyLeaderboardEmbed,
@@ -11,30 +10,10 @@ import {
   denyUnauthorizedLeaderboardInteraction,
   parseRepLeaderboardCustomId,
 } from '../../utils/pagination/leaderboardPagination';
-
-function formatLeaderboardLine(rank: number, reps: number, username: string): string {
-  const rankText = `${rank}.`.padEnd(6, ' ');
-  return `${rankText}${reps} - ${username}`;
-}
-
-async function resolveLeaderboardUsername(
-  interaction: ButtonInteraction,
-  userId: string,
-): Promise<string> {
-  if (!interaction.guild) return 'Unknown User';
-
-  try {
-    const member = await interaction.guild.members.fetch(userId);
-    return member.user.tag;
-  } catch {
-    try {
-      const user = await interaction.client.users.fetch(userId);
-      return user.tag;
-    } catch {
-      return 'Unknown User';
-    }
-  }
-}
+import {
+  formatRepLeaderboardLine,
+  resolveRepLeaderboardUsernameFromInteraction,
+} from '../../utils/rep/repLeaderboardFormatter';
 
 export async function handleRepLeaderboardButton(
   interaction: ButtonInteraction,
@@ -72,8 +51,11 @@ export async function handleRepLeaderboardButton(
 
     const lines = await Promise.all(
       leaderboard.entries.map(async (entry) => {
-        const username = await resolveLeaderboardUsername(interaction, entry.userId);
-        return formatLeaderboardLine(entry.rank, entry.repsReceived, username);
+        const username = await resolveRepLeaderboardUsernameFromInteraction(
+          interaction,
+          entry.userId,
+        );
+        return formatRepLeaderboardLine(entry.rank, entry.repsReceived, username);
       }),
     );
 
@@ -83,7 +65,7 @@ export async function handleRepLeaderboardButton(
           lines,
           page: leaderboard.page,
           totalUsers: leaderboard.totalUsers,
-          pageSize: REP_CONSTANTS.LEADERBOARD_PAGE_SIZE,
+          pageSize: leaderboard.pageSize,
           prefix: '/',
         }),
       ],

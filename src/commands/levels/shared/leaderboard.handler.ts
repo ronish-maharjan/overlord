@@ -11,31 +11,10 @@ import {
   attachLevelLeaderboardTimeout,
   createLevelLeaderboardButtons,
 } from '../../../utils/pagination/levelLeaderboardPagination';
-
-function formatLeaderboardLine(rank: number, xp: number, level: number, username: string): string {
-  const rankText = `${rank}.`.padEnd(6, ' ');
-  return `${rankText}${xp} XP (Lv ${level}) - ${username}`;
-}
-
-async function resolveLeaderboardUsername(
-  context: CommandContext,
-  userId: string,
-): Promise<string> {
-  const guild = context.source.guild;
-  if (!guild) return 'Unknown User';
-
-  try {
-    const member = await guild.members.fetch(userId);
-    return member.user.tag;
-  } catch {
-    try {
-      const user = await context.source.client.users.fetch(userId);
-      return user.tag;
-    } catch {
-      return 'Unknown User';
-    }
-  }
-}
+import {
+  formatLevelLeaderboardLine,
+  resolveLevelLeaderboardUsernameFromContext,
+} from '../../../utils/levels/levelLeaderboardFormatter';
 
 export async function handleLevelLeaderboard(params: {
   context: CommandContext;
@@ -67,8 +46,16 @@ export async function handleLevelLeaderboard(params: {
 
     const lines = await Promise.all(
       leaderboard.entries.map(async (entry) => {
-        const username = await resolveLeaderboardUsername(context, entry.userId);
-        return formatLeaderboardLine(entry.rank, entry.xp, entry.level, username);
+        const username = await resolveLevelLeaderboardUsernameFromContext(
+          context,
+          entry.userId,
+        );
+        return formatLevelLeaderboardLine(
+          entry.rank,
+          entry.xp,
+          entry.level,
+          username,
+        );
       }),
     );
 

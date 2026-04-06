@@ -10,30 +10,10 @@ import {
   denyUnauthorizedLevelLeaderboardInteraction,
   parseLevelLeaderboardCustomId,
 } from '../../utils/pagination/levelLeaderboardPagination';
-
-function formatLeaderboardLine(rank: number, xp: number, level: number, username: string): string {
-  const rankText = `${rank}.`.padEnd(6, ' ');
-  return `${rankText}${xp} XP (Lv ${level}) - ${username}`;
-}
-
-async function resolveLeaderboardUsername(
-  interaction: ButtonInteraction,
-  userId: string,
-): Promise<string> {
-  if (!interaction.guild) return 'Unknown User';
-
-  try {
-    const member = await interaction.guild.members.fetch(userId);
-    return member.user.tag;
-  } catch {
-    try {
-      const user = await interaction.client.users.fetch(userId);
-      return user.tag;
-    } catch {
-      return 'Unknown User';
-    }
-  }
-}
+import {
+  formatLevelLeaderboardLine,
+  resolveLevelLeaderboardUsernameFromInteraction,
+} from '../../utils/levels/levelLeaderboardFormatter';
 
 export async function handleLevelLeaderboardButton(
   interaction: ButtonInteraction,
@@ -71,8 +51,16 @@ export async function handleLevelLeaderboardButton(
 
     const lines = await Promise.all(
       leaderboard.entries.map(async (entry) => {
-        const username = await resolveLeaderboardUsername(interaction, entry.userId);
-        return formatLeaderboardLine(entry.rank, entry.xp, entry.level, username);
+        const username = await resolveLevelLeaderboardUsernameFromInteraction(
+          interaction,
+          entry.userId,
+        );
+        return formatLevelLeaderboardLine(
+          entry.rank,
+          entry.xp,
+          entry.level,
+          username,
+        );
       }),
     );
 
