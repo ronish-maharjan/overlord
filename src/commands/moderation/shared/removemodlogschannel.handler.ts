@@ -20,6 +20,7 @@ export async function handleRemoveModLogsChannel(params: {
     if (error instanceof ModerationSettingsServiceError) {
       await context.reply({
         embeds: [createErrorEmbed(error.message)],
+        ephemeral: true,
       });
       return;
     }
@@ -28,6 +29,7 @@ export async function handleRemoveModLogsChannel(params: {
 
     await context.reply({
       embeds: [createErrorEmbed('Something went wrong while removing the moderation logs channel.')],
+      ephemeral: true,
     });
   }
 }

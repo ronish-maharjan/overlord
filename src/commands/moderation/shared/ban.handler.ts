@@ -23,6 +23,7 @@ export async function handleBan(params: {
   if (!context.source.guild) {
     await context.reply({
       embeds: [createErrorEmbed('This command can only be used in a server.')],
+      ephemeral: true,
     });
     return;
   }
@@ -68,6 +69,7 @@ export async function handleBan(params: {
     ) {
       await context.reply({
         embeds: [createErrorEmbed(error.message)],
+        ephemeral: true,
       });
       return;
     }
@@ -76,6 +78,7 @@ export async function handleBan(params: {
 
     await context.reply({
       embeds: [createErrorEmbed('Something went wrong while banning that user.')],
+      ephemeral: true,
     });
   }
 }

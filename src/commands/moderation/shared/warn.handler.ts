@@ -22,6 +22,7 @@ export async function handleWarn(params: {
   if (!context.guildId || !context.source.guild) {
     await context.reply({
       embeds: [createErrorEmbed('This command can only be used in a server.')],
+      ephemeral: true,
     });
     return;
   }
@@ -29,6 +30,7 @@ export async function handleWarn(params: {
   if (!targetMember) {
     await context.reply({
       embeds: [createErrorEmbed('Could not find that member in this server.')],
+      ephemeral: true,
     });
     return;
   }
@@ -74,6 +76,7 @@ export async function handleWarn(params: {
     ) {
       await context.reply({
         embeds: [createErrorEmbed(error.message)],
+        ephemeral: true,
       });
       return;
     }
@@ -82,6 +85,7 @@ export async function handleWarn(params: {
 
     await context.reply({
       embeds: [createErrorEmbed('Something went wrong while warning that member.')],
+      ephemeral: true,
     });
   }
 }

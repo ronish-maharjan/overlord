@@ -16,6 +16,7 @@ export async function handleHistory(params: {
   if (!context.guildId) {
     await context.reply({
       embeds: [createErrorEmbed('This command can only be used in a server.')],
+      ephemeral: true,
     });
     return;
   }
@@ -31,6 +32,7 @@ export async function handleHistory(params: {
     if (history.totalEntries === 0) {
       await context.reply({
         embeds: [createErrorEmbed('No moderation history found for that user.')],
+        ephemeral: true,
       });
       return;
     }
@@ -72,6 +74,7 @@ export async function handleHistory(params: {
 
     await context.reply({
       embeds: [createErrorEmbed('Something went wrong while loading moderation history.')],
+      ephemeral: true,
     });
   }
 }

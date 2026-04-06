@@ -1,4 +1,9 @@
-import type { ButtonInteraction, TextChannel, NewsChannel, ThreadChannel } from 'discord.js';
+import type {
+  ButtonInteraction,
+  TextChannel,
+  NewsChannel,
+  ThreadChannel,
+} from 'discord.js';
 import { container } from '../../container';
 import { createErrorEmbed } from '../../utils/embeds/errorEmbeds';
 import {
@@ -31,17 +36,28 @@ export async function handleModerationPurgeButton(
     return;
   }
 
-  const channel = await interaction.client.channels.fetch(parsed.channelId).catch(() => null);
-
-  if (!channel || !('bulkDelete' in channel)) {
-    await interaction.update({
-      embeds: [createErrorEmbed('This channel no longer supports purging.')],
-      components: [],
-    });
-    return;
-  }
+  await interaction.deferReply({ ephemeral: true });
 
   try {
+    if (interaction.message.editable) {
+      await interaction.message.edit({
+        content: 'Purge confirmed. Processing...',
+        embeds: [],
+        components: [],
+      }).catch(() => null);
+    }
+
+    const channel = await interaction.client.channels
+      .fetch(parsed.channelId)
+      .catch(() => null);
+
+    if (!channel || !('bulkDelete' in channel)) {
+      await interaction.editReply({
+        embeds: [createErrorEmbed('This channel no longer supports purging.')],
+      });
+      return;
+    }
+
     let deletedCount = 0;
 
     if (parsed.mode === 'all') {
@@ -54,9 +70,8 @@ export async function handleModerationPurgeButton(
 
     if (parsed.mode === 'user') {
       if (!parsed.targetUserId) {
-        await interaction.update({
+        await interaction.editReply({
           embeds: [createErrorEmbed('Missing target user for purge.')],
-          components: [],
         });
         return;
       }
@@ -69,10 +84,9 @@ export async function handleModerationPurgeButton(
       deletedCount = result.deletedCount;
     }
 
-    await interaction.update({
+    await interaction.editReply({
       content: `Deleted **${deletedCount}** messages.`,
       embeds: [],
-      components: [],
     });
   } catch (error) {
     const message =
@@ -80,9 +94,8 @@ export async function handleModerationPurgeButton(
         ? error.message
         : 'Something went wrong while performing the purge.';
 
-    await interaction.update({
+    await interaction.editReply({
       embeds: [createErrorEmbed(message)],
-      components: [],
-    });
+    }).catch(() => null);
   }
 }

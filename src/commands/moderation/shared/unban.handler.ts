@@ -15,6 +15,7 @@ export async function handleUnban(params: {
   if (!context.source.guild) {
     await context.reply({
       embeds: [createErrorEmbed('This command can only be used in a server.')],
+      ephemeral: true,
     });
     return;
   }
@@ -43,6 +44,7 @@ export async function handleUnban(params: {
     if (error instanceof ModerationServiceError) {
       await context.reply({
         embeds: [createErrorEmbed(error.message)],
+        ephemeral: true,
       });
       return;
     }
@@ -51,6 +53,7 @@ export async function handleUnban(params: {
 
     await context.reply({
       embeds: [createErrorEmbed('Something went wrong while unbanning that user.')],
+      ephemeral: true,
     });
   }
 }

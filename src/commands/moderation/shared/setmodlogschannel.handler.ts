@@ -23,6 +23,7 @@ export async function handleSetModLogsChannel(params: {
     if (error instanceof ModerationSettingsServiceError) {
       await context.reply({
         embeds: [createErrorEmbed(error.message)],
+        ephemeral: true,
       });
       return;
     }
@@ -31,6 +32,7 @@ export async function handleSetModLogsChannel(params: {
 
     await context.reply({
       embeds: [createErrorEmbed('Something went wrong while setting the moderation logs channel.')],
+      ephemeral: true,
     });
   }
 }

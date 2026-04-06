@@ -17,6 +17,7 @@ export async function handleCleanup(params: {
   if (!('bulkDelete' in channel)) {
     await context.reply({
       embeds: [createErrorEmbed('This channel does not support cleanup.')],
+      ephemeral: true,
     });
     return;
   }
@@ -38,6 +39,7 @@ export async function handleCleanup(params: {
 
     await context.reply({
       embeds: [createErrorEmbed(message)],
+      ephemeral: true,
     });
   }
 }

@@ -17,6 +17,7 @@ export async function handlePurgeContains(params: {
   if (!text.trim().length) {
     await context.reply({
       embeds: [createErrorEmbed('You must provide text to search for.')],
+      ephemeral: true,
     });
     return;
   }
@@ -24,6 +25,7 @@ export async function handlePurgeContains(params: {
   if (!('bulkDelete' in channel)) {
     await context.reply({
       embeds: [createErrorEmbed('This channel does not support purging.')],
+      ephemeral: true,
     });
     return;
   }
@@ -44,6 +46,7 @@ export async function handlePurgeContains(params: {
 
     await context.reply({
       embeds: [createErrorEmbed(message)],
+      ephemeral: true,
     });
   }
 }

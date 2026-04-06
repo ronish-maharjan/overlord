@@ -23,6 +23,7 @@ export async function handleTimeout(params: {
   if (!context.guildId || !context.source.guild) {
     await context.reply({
       embeds: [createErrorEmbed('This command can only be used in a server.')],
+      ephemeral: true,
     });
     return;
   }
@@ -30,6 +31,7 @@ export async function handleTimeout(params: {
   if (!targetMember) {
     await context.reply({
       embeds: [createErrorEmbed('Could not find that member in this server.')],
+      ephemeral: true,
     });
     return;
   }
@@ -37,6 +39,7 @@ export async function handleTimeout(params: {
   if (targetMember.isCommunicationDisabled()) {
     await context.reply({
       embeds: [createErrorEmbed('That member is already timed out.')],
+      ephemeral: true,
     });
     return;
   }
@@ -83,6 +86,7 @@ export async function handleTimeout(params: {
     ) {
       await context.reply({
         embeds: [createErrorEmbed(error.message)],
+        ephemeral: true,
       });
       return;
     }
@@ -91,6 +95,7 @@ export async function handleTimeout(params: {
 
     await context.reply({
       embeds: [createErrorEmbed('Something went wrong while timing out that member.')],
+      ephemeral: true,
     });
   }
 }

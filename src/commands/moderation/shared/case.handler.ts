@@ -12,6 +12,7 @@ export async function handleCaseLookup(params: {
   if (!context.guildId) {
     await context.reply({
       embeds: [createErrorEmbed('This command can only be used in a server.')],
+      ephemeral: true,
     });
     return;
   }
@@ -22,6 +23,7 @@ export async function handleCaseLookup(params: {
     if (!action) {
       await context.reply({
         embeds: [createErrorEmbed(`Could not find case #${caseId}.`)],
+        ephemeral: true,
       });
       return;
     }
@@ -52,6 +54,7 @@ export async function handleCaseLookup(params: {
 
     await context.reply({
       embeds: [createErrorEmbed('Something went wrong while loading that case.')],
+      ephemeral: true,
     });
   }
 }
