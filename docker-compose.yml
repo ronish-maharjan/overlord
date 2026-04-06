@@ -1,0 +1,22 @@
+name: waifu  # this will add the prefix to the container name, default is the project folder name 
+
+# services stores all the container related stuff it is used to startup required container so that we dont have to start each container using docker start <container_name>
+services:
+  postgres: # this is the service name   
+    image: postgres:16-alpine
+    container_name: postgres_db
+    restart: no # have 3 mode always , unless_stopped , on-failure
+    
+    # same like we set custom environemt in the .bashrc file 
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports: 
+      - "5432:5432"
+      # this volume is used to make the data available even if the container is stopped and turn on again it store the data in the system and act as symlink
+    volumes: 
+      - waifuPostgres:/var/lib/postgresql/data
+
+volumes:
+  waifuPostgres:

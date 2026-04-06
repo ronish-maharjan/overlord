@@ -1,0 +1,1 @@
+ALTER TABLE "level_stats" ADD COLUMN "last_xp_gained_at" timestamp with time zone;

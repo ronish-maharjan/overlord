@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1775396464124,
+      "tag": "0000_premium_william_stryker",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1775405657697,
+      "tag": "0001_pale_nick_fury",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1775406779732,
+      "tag": "0002_living_stature",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1775446030612,
+      "tag": "0003_young_shocker",
+      "breakpoints": true
+    }
+  ]
+}
