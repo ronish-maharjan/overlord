@@ -30,14 +30,17 @@ import removemodlogschannel from '../moderation/prefix/removemodlogschannel';
 import cleanup from '../moderation/prefix/cleanup';
 import purge from '../moderation/prefix/purge';
 
-//verification
+// Verification
 import setverifyrole from '../verification/prefix/setverifyrole';
 import removeverifyrole from '../verification/prefix/removeverifyrole';
 import setverifychannel from '../verification/prefix/setverifychannel';
 import removeverifychannel from '../verification/prefix/removeverifychannel';
 
+// Tags
+import tag from '../tag/prefix/tag';
+
 export const prefixCommands: PrefixCommand[] = [
-    // verification
+    // Verification
     setverifychannel,
     removeverifychannel,
     setverifyrole,
@@ -72,6 +75,9 @@ export const prefixCommands: PrefixCommand[] = [
     removemodlogschannel,
     cleanup,
     purge,
+
+    // Tags
+    tag,
 ];
 
 export const prefixCommandMap = new Map<string, PrefixCommand>();

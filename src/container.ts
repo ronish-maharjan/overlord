@@ -15,21 +15,27 @@ import { ModerationPurgeService } from './services/moderation/moderationPurge.se
 import { VerificationSettingsRepository } from './repositories/verification/verificationSettings.repository';
 import { VerificationService } from './services/verification/verification.service';
 
-const repRepository = new RepRepository();
-const repService = new RepService(repRepository);
+import { TagRepository } from './repositories/tag/tag.repository';
+import { TagService } from './services/tag/tag.service';
 
+// Repositories
+const repRepository = new RepRepository();
 const levelsRepository = new LevelsRepository();
 const levelRoleRewardsRepository = new LevelRoleRewardsRepository();
 const levelSettingsRepository = new LevelSettingsRepository();
+const moderationRepository = new ModerationRepository();
+const moderationSettingsRepository = new ModerationSettingsRepository();
+const verificationSettingsRepository = new VerificationSettingsRepository();
+const tagRepository = new TagRepository();
+
+// Services
+const repService = new RepService(repRepository);
 
 const levelsService = new LevelsService(
   levelsRepository,
   levelRoleRewardsRepository,
   levelSettingsRepository,
 );
-
-const moderationRepository = new ModerationRepository();
-const moderationSettingsRepository = new ModerationSettingsRepository();
 
 const moderationService = new ModerationService(
   moderationRepository,
@@ -42,26 +48,35 @@ const moderationSettingsService = new ModerationSettingsService(
 
 const moderationPurgeService = new ModerationPurgeService();
 
-const verificationSettingsRepository = new VerificationSettingsRepository();
 const verificationService = new VerificationService(
   verificationSettingsRepository,
 );
 
+const tagService = new TagService(tagRepository);
+
 export const container = {
+  // Verification
   verificationSettingsRepository,
   verificationService,
 
+  // Rep
   repRepository,
   repService,
 
+  // Levels
   levelsRepository,
   levelRoleRewardsRepository,
   levelSettingsRepository,
   levelsService,
 
+  // Moderation
   moderationRepository,
   moderationSettingsRepository,
   moderationService,
   moderationSettingsService,
   moderationPurgeService,
+
+  // Tags
+  tagRepository,
+  tagService,
 };
